@@ -13,25 +13,18 @@ const userProfile = require('./Routes/userProfile');
 const registerUser = require('./Routes/registerUser');
 require('dotenv').config();
 
-process.on('uncaughtException', (ex) => {
+process.on('uncaughtException', (ex) => { //caught the exception here
     console.log('An error occured during the startup!');
     winston.error(ex.message, ex);
 });
 
-winston.add(new winston.transports.File({ filename: 'logfile.log' }));//then add winston transport and the filename for log file
-winston.add(new winston.transports.MongoDB({ //then add mongodb transport
+winston.add(new winston.transports.File({ filename: 'logfile.log' }));
+winston.add(new winston.transports.MongoDB({
     db: 'mongodb://localhost/mangaApp',
     level: 'error'
-    //you can also store differnt kind of error or message like
-    //error
-    //waren
-    //info
-    //verbose
-    //debug
-    //silly
 }));
 
-throw new Error('Something error during startup!');
+throw new Error('Something error during startup!'); //use this to test the uncaught exception handling
 
 let key = process.env.jwtPrivateKey;
 if(!key){
